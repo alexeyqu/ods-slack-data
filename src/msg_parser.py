@@ -31,7 +31,7 @@ class Channel(Base):
 # c = Counter()   
 
 class Message(Base):
-    __tablename__ = 'imported_message'
+    __tablename__ = 'imported_messages'
 
     channel = Column('channel', String, primary_key=True)
     ts = Column('ts', String, primary_key=True)
