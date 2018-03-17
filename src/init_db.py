@@ -9,7 +9,6 @@ from sqlalchemy.pool import NullPool
 
 logger = logging.getLogger(__name__)
 db_name = '../ods-slack.db'
-
 engine = create_engine('sqlite:///' + db_name, echo=True)
 Base = declarative_base()
 
