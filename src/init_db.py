@@ -8,8 +8,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
 logger = logging.getLogger(__name__)
+db_name = '../ods-slack.db'
 
-engine = create_engine('sqlite:///../data/ods-slack.db', echo=True)
+engine = create_engine('sqlite:///' + db_name, echo=True)
 Base = declarative_base()
 
 if __name__ == '__main__':
