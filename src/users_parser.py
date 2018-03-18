@@ -103,3 +103,34 @@ def parse_users(session, json_path):
     for user in data:
         session.add(UserData(user))
     session.commit()
+
+fields_ods = {'skype' : 'Xf0DANL9SL', 'github' : 'Xf3WC3HJMR' }
+def parse_messages_get_fields(json_path):
+    data = json.load(open(json_path))
+    with open('fields.csv', 'w') as f:
+        for user in data:
+            skype = ''
+            github = ''
+            if user['profile'].get('fields', ''):
+                if fields_ods['skype'] in user['profile']['fields']:
+                    skype = user['profile']['fields'][fields_ods['skype']]
+                    if skype['alt'] != '':
+                        skype = skype['alt']
+                    else:
+                        skype = skype['value']
+                if fields_ods['github'] in user['profile']['fields']:
+                    github = user['profile']['fields'][fields_ods['github']]
+                    if github['alt'] != '':
+                        github = github['alt']
+                    else:
+                        github = github['value']
+            f.write('"' + '","'.join([user['id'], user['name'], user['profile']['title'], 
+                user['profile'].get('real_name_normalized', ''), 
+                user['profile'].get('first_name', ''), user['profile'].get('last_name', ''), 
+                skype, github]) + '"\n')
+
+
+                
+
+if __name__ == '__main__':
+    parse_messages_get_fields('../data/users.json')
