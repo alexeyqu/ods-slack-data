@@ -9,12 +9,12 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
-logger = logging.getLogger(__name__)
-local_name = 'sqlite:///../ods-slack-user.db'
-remote_name = 'postgres://usgbqmayetwlrv:a8b6a60b922bd6d08c3e94fa41eac937f71ed3bc4afade4995a3bdf5d54e36ca@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d7942vtj104cpv'
-engine = create_engine(local_name, echo=True)
+# logger = logging.getLogger(__name__)
+# local_name = 'sqlite:///../ods-slack.db'
+# remote_name = 'postgres://usgbqmayetwlrv:a8b6a60b922bd6d08c3e94fa41eac937f71ed3bc4afade4995a3bdf5d54e36ca@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d7942vtj104cpv'
+# engine = create_engine(local_name, echo=True)
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+# Session = sessionmaker(bind=engine)
 
 class UserData(Base):
     __tablename__ = 'imported_user_data'
@@ -98,15 +98,8 @@ class UserData(Base):
         return "<UserData({0}, {1})>".format(self.id, self.real_name)
 
 
-def parse_users(json_path):
-    session = Session()
+def parse_users(session, json_path):
     data = json.load(open(json_path))
     for user in data:
         session.add(UserData(user))
     session.commit()
-
-
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
-    # UserData.__table__.drop(engine)
-    parse_users('../data/users.json')

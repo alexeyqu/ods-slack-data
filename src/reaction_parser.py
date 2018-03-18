@@ -10,12 +10,12 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
-logger = logging.getLogger(__name__)
-local_name = 'sqlite:///../ods-slack-reactions-count.db'
-remote_name = 'postgres://usgbqmayetwlrv:a8b6a60b922bd6d08c3e94fa41eac937f71ed3bc4afade4995a3bdf5d54e36ca@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d7942vtj104cpv'
-engine = create_engine(local_name, echo=True)
+# logger = logging.getLogger(__name__)
+# local_name = 'sqlite:///../ods-slack-reactions-count.db'
+# remote_name = 'postgres://usgbqmayetwlrv:a8b6a60b922bd6d08c3e94fa41eac937f71ed3bc4afade4995a3bdf5d54e36ca@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d7942vtj104cpv'
+# engine = create_engine(local_name, echo=True)
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+# Session = sessionmaker(bind=engine)
 
 
 class Reaction(Base):
@@ -53,8 +53,7 @@ class ReactionCount(Base):
         return "<Reaction({0}, {1}, {2})>".format(self.name, self.message_ts, self.count)
 
 
-def parse_reactions(data_path):
-    session = Session()
+def parse_reactions(session, data_path):
     # c = Counter()  
     dirs = [e.name for e in os.scandir(data_path) if e.is_dir()]
     # msg_keys = set()
@@ -83,8 +82,7 @@ def parse_reactions(data_path):
     # pprint(c.most_common(60))
     # print(len(msg_keys), '\n')
 
-def parse_reactions_count(data_path):
-    session = Session()
+def parse_reactions_count(session, data_path):
     # c = Counter()  
     dirs = [e.name for e in os.scandir(data_path) if e.is_dir()]
     # msg_keys = set()
@@ -112,6 +110,6 @@ def parse_reactions_count(data_path):
     # pprint(c.most_common(60))
     # print(len(msg_keys), '\n')
 
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
-    parse_reactions_count('../data')
+# if __name__ == '__main__':
+#     Base.metadata.create_all(engine)
+#     parse_reactions_count('../data')
